@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💼 Owner Dashboard - Sri Dongardevi Krishi Kendra</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #fef9c3, #e0f2fe);
+      color: #1e293b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      color: #1e40af;
+      font-weight: 700;
+    }
+
+    .btn {
+      margin: 10px 5px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #3b82f6, #22c55e);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #searchBox {
+      margin-top: 10px;
+      padding: 8px 12px;
+      width: 250px;
+      border: 2px solid #3b82f6;
+      border-radius: 8px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    #searchBox:focus {
+      border-color: #22c55e;
+      box-shadow: 0 0 5px rgba(34, 197, 94, 0.5);
+    }
+
+    table {
+      width: 90%;
+      max-width: 950px;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    th,
+    td {
+      border: 1px solid #cbd5e1;
+      padding: 10px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    th {
+      background: #f1f5f9;
+    }
+
+    footer {
+      margin: 20px 0;
+      font-size: 12px;
+      color: #64748b;
+      text-align: center;
+    }
+
+    .toggle-btn {
+      background: none;
+      border: none;
+      color: #2563eb;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .toggle-btn:hover {
+      color: #1d4ed8;
+      transform: scale(1.05);
+    }
+
+    .details {
+      display: none;
+      background: #f8fafc;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .details td {
+      text-align: left;
+      padding-left: 20px;
+      font-size: 12px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .delete-btn {
+      background: linear-gradient(90deg, #ef4444, #f87171);
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .delete-btn:hover {
+      background: #dc2626;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>📊 Owner Dashboard</h1>
+    <button class="btn" onclick="goHome()">🏠 Home</button>
+    <button class="btn" onclick="exportExcel()">📤 Export Excel</button><br>
+    <input type="text" id="searchBox" placeholder="🔍 Search by Customer or Date...">
+  </header>
+
+  <table id="billsTable">
+    <thead>
+      <tr>
+        <th>Bill ID</th>
+        <th>Date & Time</th>
+        <th>Customer</th>
+        <th>Particulars</th>
+        <th>Qty</th>
+        <th>Rate (Incl. Tax)</th>
+        <th>Total ₹</th>
+        <th>Grand Total ₹</th>
+        <th>Payment Mode</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <footer>© 2025 Sri Dongardevi Krishi Kendra | Owner View</footer>
+
+<script>
+  function goHome() {
+    window.location.href = "index.html";
+  }
+
+  const tbody = document.querySelector("#billsTable tbody");
+  const searchBox = document.getElementById("searchBox");
+  let allBills = []; // store all bills from DB
+
+  // ✅ Fetch bills from PostgreSQL via backend
+  async function loadBills() {
+    try {
+      const res = await fetch("https://krushi-kendra-backend.onrender.com/bills");
+      allBills = await res.json();
+      renderTable(allBills);
+    } catch (err) {
+      console.error("❌ Error fetching bills:", err);
+      tbody.innerHTML = `<tr><td colspan="10">Error loading data from server</td></tr>`;
+    }
+  }
+
+  // ✅ Render table with edit + delete + formatted date
+  function renderTable(bills) {
+    tbody.innerHTML = "";
+    if (bills.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="10">No bills found</td></tr>`;
+      return;
+    }
+
+    bills.forEach((bill, index) => {
+      const toggleId = `details-${index}`;
+      const payToggleId = `pay-${index}`;
+      const particulars = bill.particular || "-";
+      const isPartial = bill.payment_mode && bill.payment_mode.toLowerCase() === "partial";
+
+      const paymentDisplay = isPartial
+        ? `<button class="toggle-btn" onclick="toggleDetails('${payToggleId}', this)">▶ Partial</button>`
+        : (bill.payment_mode || "Cash");
+
+      // 🗓 Format date in Indian locale with time
+      const formattedDate = bill.bill_date
+        ? new Date(bill.bill_date).toLocaleString("en-IN", {
+            dateStyle: "medium",
+            timeStyle: "short",
+          })
+        : "-";
+
+      tbody.innerHTML += `
+        <tr>
+          <td>${bill.bill_id}</td>
+          <td>${formattedDate}</td>
+          <td>${bill.customer_name || '-'}</td>
+          <td>${particulars}</td>
+          <td>${bill.quantity || '-'}</td>
+          <td>${bill.rate_incl_tax || '-'}</td>
+          <td>${bill.total_amount || '-'}</td>
+          <td>${bill.grand_total || '-'}</td>
+          <td>${paymentDisplay}</td>
+          <td>
+            <button class="edit-btn" onclick="editBill(${bill.bill_id})">✏️</button>
+            <button class="delete-btn" onclick="deleteBill(${bill.bill_id})">🗑</button>
+          </td>
+        </tr>
+
+        ${
+          isPartial
+            ? `
+        <tr id="${payToggleId}" class="details">
+          <td colspan="10">
+            💰 <b>Paid:</b> ₹${bill.amount_paid || 0}<br>
+            🧾 <b>Balance:</b> ₹${bill.balance_amount || 0}
+          </td>
+        </tr>`
+            : ""
+        }
+      `;
+    });
+  }
+
+  function toggleDetails(id, btn) {
+    const row = document.getElementById(id);
+    const open = row && row.style.display === "table-row";
+    if (row) {
+      row.style.display = open ? "none" : "table-row";
+      btn.textContent = open ? "▶ View" : "▼ Hide";
+    }
+  }
+
+  // 🗑 Delete bill
+async function deleteBill(bill_id) {
+  if (!confirm("🗑 Delete this bill permanently?")) return;
+
+  try {
+    const res = await fetch(`https://krushi-kendra-backend.onrender.com/delete-bill/${bill_id}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      alert("✅ Bill deleted successfully!");
+      loadBills(); // refresh the table
+    } else {
+      alert("❌ Failed to delete bill.");
+    }
+  } catch (err) {
+    console.error("❌ Error deleting bill:", err);
+    alert("Error deleting bill from server.");
+  }
+}
+
+
+  // ✏️ Edit bill (navigate to billing page with query)
+  function editBill(bill_id) {
+    window.location.href = `Billing.html?edit=${bill_id}`;
+  }
+
+  // 📤 Export bills as CSV
+  function exportExcel() {
+    if (allBills.length === 0) return alert("No bills to export!");
+    let csv =
+      "Bill ID,Date & Time,Customer,Particular,Qty,Rate (Incl. Tax),Total,Grand Total,Payment Mode,Paid,Balance\n";
+    allBills.forEach((b) => {
+      csv += `${b.bill_id},${b.bill_date},${b.customer_name},${b.particular || "-"},${b.quantity || "-"},${b.rate_incl_tax || "-"},${b.total_amount || "-"},${b.grand_total || "-"},${b.payment_mode || "-"},${b.amount_paid || "-"},${b.balance_amount || "-"}\n`;
+    });
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "Bills_Report.csv";
+    link.click();
+  }
+
+  // 🔍 Search
+  searchBox.addEventListener("input", (e) => {
+    const q = e.target.value.toLowerCase();
+    const filtered = allBills.filter(
+      (b) =>
+        (b.customer_name && b.customer_name.toLowerCase().includes(q)) ||
+        (b.bill_date && b.bill_date.toLowerCase().includes(q))
+    );
+    renderTable(filtered);
+  });
+
+  // 🚀 Load data on page start
+  loadBills();
+</script>
+</body>
+</html>

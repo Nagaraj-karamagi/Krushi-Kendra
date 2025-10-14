@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧾 Sri Dongardevi Krishi Kendra - Billing</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #fef9c3, #e0f2fe);
+      color: #1e293b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 15px 20px 80px 20px;
+      text-align: center;
+      line-height: 1.4;
+      position: relative;
+    }
+
+    .left-logo {
+      position: absolute;
+      left: 20px;
+      top: 10px;
+      width: 110px;
+      height: 110px;
+      object-fit: contain;
+    }
+
+    .right-logo {
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      width: 110px;
+      height: 110px;
+      object-fit: contain;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+      color: #1e40af;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    header p {
+      margin: 2px 0;
+      font-size: 14px;
+      color: #475569;
+    }
+
+    .home-btn {
+      align-self: flex-start;
+      margin: 15px 0 0 25px;
+      background: linear-gradient(90deg, #3b82f6, #22c55e);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+    }
+
+    .home-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+    }
+
+    .bill-container {
+      background: #fff;
+      width: 90%;
+      max-width: 950px;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    th,
+    td {
+      border: 1px solid #cbd5e1;
+      padding: 4px;
+      text-align: center;
+    }
+
+    th {
+      background: #f1f5f9;
+      font-weight: 600;
+    }
+
+    .totals,
+    .tax-summary {
+      margin-top: 12px;
+      width: 100%;
+      font-size: 12px;
+    }
+
+    .totals td,
+    .tax-summary td {
+      padding: 4px;
+      border: 1px solid #cbd5e1;
+    }
+
+    .totals tr:last-child td {
+      font-weight: 700;
+      color: #1e3a8a;
+    }
+
+    .amount-words {
+      margin-top: 8px;
+      font-weight: 600;
+      font-size: 12px;
+      color: #334155;
+    }
+
+    .btn-container {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background: linear-gradient(90deg, #3b82f6, #22c55e);
+      color: white;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      font-size: 14px;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+    }
+
+    .signature-box {
+      margin-top: 25px;
+      display: flex;
+      justify-content: flex-end;
+      padding-right: 40px;
+      text-align: center;
+    }
+
+    .signature-line {
+      border-top: 1px solid #000;
+      width: 180px;
+      margin-top: 40px;
+      font-size: 12px;
+      color: #334155;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    textarea,
+    input,
+    select {
+      font-size: 12px;
+    }
+
+    textarea {
+      width: 200px;
+      resize: none;
+    }
+
+    @media print {
+      .btn-container,
+      .home-btn {
+        display: none !important;
+      }
+
+      #customerName,
+      #paymentMode,
+      #paidAmount {
+        border: none !important;
+        background: transparent !important;
+      }
+
+      #paymentMode {
+        display: none !important;
+      }
+
+      #paymentModeText {
+        display: inline !important;
+      }
+
+      textarea,
+      input,
+      select {
+        outline: none !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+
+    #paymentModeText {
+      display: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <img src="Devi.jpg.png" alt="Devi" class="left-logo">
+    <img src="Logo.jpg.png" alt="Logo" class="right-logo">
+
+    <h1>🌿SRI DONGARDEVI KRISHI KENDRA🌿</h1>
+    <p><b>Dealers in:</b> Seeds, Fertilizers & Pesticides</p>
+    <p><b>GSTIN:</b> 29BEOPR4412N1ZS | <b>Mobile:</b> 9731488969, 8147246006</p>
+    <p><b>Address:</b> No. III-282/2, Karmagi Complex, Govt. Hospital Main Road, DONGARGAON</p>
+  </header>
+
+  <button class="home-btn" onclick="goHome()">🏠 Home</button>
+
+  <div class="bill-container">
+    <h2 style="text-align:center;color:#1e40af;">TAX INVOICE</h2>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px;">
+      <p><b>Customer Name:</b>
+        <input type="text" id="customerName" placeholder="Enter Name"
+          style="padding:3px 6px; border:1px solid #cbd5e1; border-radius:4px; font-size:12px; width:200px;">
+      </p>
+      <p><b>Date & Time:</b> <span id="billDateTime"></span></p>
+    </div>
+
+    <p style="font-size:12px;">
+      <b>Payment Mode:</b>
+      <select id="paymentMode" onchange="updatePaymentFields()">
+        <option value="cash">Cash</option>
+        <option value="upi">UPI</option>
+        <option value="unpaid">Unpaid</option>
+        <option value="partial">Partial Payment</option>
+      </select>
+      <span id="paymentModeText"></span>
+    </p>
+
+    <div id="partialPaymentFields" style="display:none; font-size:12px;">
+      <p><b>Paid Amount:</b> ₹ <input type="number" id="paidAmount" oninput="updateBalance()"></p>
+      <p><b>Balance Amount:</b> ₹ <span id="balanceAmount">0.00</span></p>
+    </div>
+
+    <table id="billTable">
+      <thead>
+        <tr>
+          <th>Particulars</th>
+          <th>HSN/SAC</th>
+          <th>Quantity</th>
+          <th>Rate (Incl. Tax)</th>
+          <th>Rate per Pc</th>
+          <th>Amount ₹</th>
+        </tr>
+      </thead>
+      <tbody id="billBody"></tbody>
+    </table>
+
+    <table class="totals">
+      <tr>
+        <td style="text-align:right;">CGST (9%)</td>
+        <td style="width:120px;text-align:center;">₹ <span id="cgst">0.00</span></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;">SGST (9%)</td>
+        <td style="text-align:center;">₹ <span id="sgst">0.00</span></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><b>Grand Total</b></td>
+        <td style="text-align:center;"><b>₹ <span id="grandTotal">0.00</span></b></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><b>Payment Mode</b></td>
+        <td style="text-align:center;"><span id="paymentModeDisplay">-</span></td>
+      </tr>
+      <tr id="paidRow" style="display:none;">
+        <td style="text-align:right;">Paid Amount</td>
+        <td style="text-align:center;">₹ <span id="paidAmountDisplay">0.00</span></td>
+      </tr>
+      <tr id="balanceRow" style="display:none;">
+        <td style="text-align:right;">Balance Amount</td>
+        <td style="text-align:center;">₹ <span id="balanceAmountDisplay">0.00</span></td>
+      </tr>
+    </table>
+
+    <p class="amount-words">Amount in Words: <span id="amountWords"></span></p>
+
+    <table class="tax-summary">
+      <thead>
+        <tr>
+          <th>Taxable Value ₹</th>
+          <th>CGST Rate</th>
+          <th>CGST ₹</th>
+          <th>SGST Rate</th>
+          <th>SGST ₹</th>
+          <th>Total Tax ₹</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="taxableValue">0.00</td>
+          <td>9%</td>
+          <td id="cgstTax">0.00</td>
+          <td>9%</td>
+          <td id="sgstTax">0.00</td>
+          <td id="totalTax">0.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="amount-words">Tax Amount in Words: <span id="taxAmountWords"></span></p>
+
+    <div class="signature-box">
+      <div class="signature-line">Authorized Signature</div>
+    </div>
+
+    <div class="btn-container">
+      <button class="btn" onclick="window.print()">🖨️ Print Bill</button>
+      <button class="btn" onclick="saveBill()">💾 Save Bill</button>
+      <button class="btn" onclick="clearBill()">🗑️ Clear Bill</button>
+    </div>
+  </div>
+
+  <footer>Goods once sold will not be taken back. | © 2025 Sri Dongardevi Krishi Kendra</footer>
+
+  <script>
+  // 🏠 Home Navigation
+  function goHome() {
+    window.location.href = "index.html";
+  }
+
+  const nowFull = new Date();
+  document.getElementById("billDateTime").textContent =
+    nowFull.toLocaleDateString() + " " + nowFull.toLocaleTimeString();
+
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const billBody = document.getElementById("billBody");
+  let subtotal = 0;
+  billBody.innerHTML = "";
+
+  cart.forEach(p => {
+    const qty = parseInt(p.selectedQty) || 1;
+    const rateIncl = parseFloat(p.rateIncl) || 0;
+    const ratePc = parseFloat(p.ratePc) || parseFloat(p.price) || 0;
+    const amt = qty * ratePc;
+    subtotal += amt;
+
+    billBody.innerHTML += `
+      <tr>
+        <td>${p.name}</td>
+        <td>${p.hsn || "-"}</td>
+        <td>${qty}</td>
+        <td>${rateIncl.toFixed(2)}</td>
+        <td>${ratePc.toFixed(2)}</td>
+        <td>${amt.toFixed(2)}</td>
+      </tr>`;
+  });
+
+  const cgst = subtotal * 0.09;
+  const sgst = subtotal * 0.09;
+  const grandTotal = subtotal + cgst + sgst;
+  document.getElementById("cgst").textContent = cgst.toFixed(2);
+  document.getElementById("sgst").textContent = sgst.toFixed(2);
+  document.getElementById("grandTotal").textContent = grandTotal.toFixed(2);
+  document.getElementById("taxableValue").textContent = subtotal.toFixed(2);
+  document.getElementById("cgstTax").textContent = cgst.toFixed(2);
+  document.getElementById("sgstTax").textContent = sgst.toFixed(2);
+  document.getElementById("totalTax").textContent = (cgst + sgst).toFixed(2);
+
+  function numberToWords(num) {
+    const a = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
+      "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+    const b = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+    if ((num = num.toString()).length > 9) return "Overflow";
+    const n = ("000000000" + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+    if (!n) return;
+    let str = "";
+    str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + " " + a[n[1][1]]) + " Crore " : "";
+    str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + " " + a[n[2][1]]) + " Lakh " : "";
+    str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + " " + a[n[3][1]]) + " Thousand " : "";
+    str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + " " + a[n[4][1]]) + " Hundred " : "";
+    str += (n[5] != 0) ? ((str != "") ? "and " : "") + (a[Number(n[5])] || b[n[5][0]] + " " + a[n[5][1]]) + " " : "";
+    return str + "Only";
+  }
+
+  document.getElementById("amountWords").textContent =
+    "INR " + numberToWords(Math.round(grandTotal));
+  document.getElementById("taxAmountWords").textContent =
+    "INR " + numberToWords(Math.round(cgst + sgst));
+
+  function updatePaymentFields() {
+    const mode = document.getElementById("paymentMode").value;
+    let modeText = "-";
+    if (mode === "cash") modeText = "Cash";
+    if (mode === "upi") modeText = "UPI";
+    if (mode === "unpaid") modeText = "Unpaid";
+    if (mode === "partial") modeText = "Partial Payment";
+
+    document.getElementById("paymentModeDisplay").textContent = modeText;
+    document.getElementById("paymentModeText").textContent = modeText;
+
+    if (mode === "partial") {
+      document.getElementById("partialPaymentFields").style.display = "block";
+      document.getElementById("paidRow").style.display = "";
+      document.getElementById("balanceRow").style.display = "";
+    } else {
+      document.getElementById("partialPaymentFields").style.display = "none";
+      document.getElementById("paidRow").style.display = "none";
+      document.getElementById("balanceRow").style.display = "none";
+    }
+  }
+
+  function updateBalance() {
+    const paid = parseFloat(document.getElementById("paidAmount").value) || 0;
+    const grand = parseFloat(document.getElementById("grandTotal").textContent) || 0;
+    const balance = grand - paid;
+    document.getElementById("paidAmountDisplay").textContent = paid.toFixed(2);
+    document.getElementById("balanceAmount").textContent = balance.toFixed(2);
+    document.getElementById("balanceAmountDisplay").textContent = balance.toFixed(2);
+  }
+
+  function clearBill() {
+    localStorage.removeItem("cart");
+    location.reload();
+  }
+
+  // ✅ Save Bill to PostgreSQL and Redirect to Owner Page
+  async function saveBill() {
+    try {
+      const bill = {
+        customer_name: document.getElementById("customerName").value || "Unknown",
+        particular: cart.map(p => p.name).join(", "),
+        quantity: cart.reduce((sum, p) => sum + (parseInt(p.selectedQty) || 0), 0),
+        rate_incl_tax: parseFloat(subtotal).toFixed(2),
+        total_amount: parseFloat(subtotal).toFixed(2),
+        grand_total: parseFloat(grandTotal).toFixed(2),
+        payment_mode: document.getElementById("paymentMode").value,
+        amount_paid: parseFloat(document.getElementById("paidAmount").value) || 0,
+        balance_amount: parseFloat(document.getElementById("balanceAmount").textContent) || 0
+      };
+
+      console.log("🧾 Saving Bill:", bill);
+
+      const res = await fetch("https://krushi-kendra-backend.onrender.com/add-bill", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bill)
+      });
+
+      if (res.ok) {
+        alert("✅ Bill saved successfully to PostgreSQL!");
+        localStorage.removeItem("cart");
+        window.location.href = "Owner.html"; // ✅ Redirect to dashboard
+      } else {
+        alert("❌ Error saving bill to server.");
+      }
+    } catch (err) {
+      console.error("❌ Error saving bill:", err);
+      alert("❌ Error saving bill.");
+    }
+  }
+
+  updatePaymentFields();
+</script>
+</body>
+
+</html>

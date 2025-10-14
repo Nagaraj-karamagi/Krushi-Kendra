@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advanced Dashboard | Krushi Kendra</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+      background: #f1f5f9;
+      color: #1e293b;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: linear-gradient(180deg, #14532d, #166534);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 10px;
+      position: fixed;
+      height: 100%;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+
+    /* Back to Home Button */
+    .back-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 12px 0;
+      margin: 10px 0 30px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #22c55e, #15803d);
+      color: #fff;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      background: linear-gradient(135deg, #16a34a, #166534);
+      box-shadow: 0 6px 16px rgba(22, 163, 74, 0.6);
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      margin: 15px 0;
+    }
+
+    .sidebar ul li a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px;
+      display: block;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+
+    .sidebar ul li a:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* Main Content */
+    .main {
+      margin-left: 240px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Topbar */
+    .topbar {
+      background: #fff;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .search-bar input {
+      padding: 8px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      outline: none;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .profile img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+    }
+
+    /* Dashboard Content */
+    .content {
+      padding: 20px;
+    }
+
+    /* Stats Cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 24px;
+      font-weight: bold;
+      color: #14532d;
+    }
+
+    /* Charts */
+    .charts {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .chart-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .chart-box h3 {
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    /* Recent Activity */
+    .activity {
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .activity h3 {
+      margin-bottom: 15px;
+    }
+
+    .activity ul {
+      list-style: none;
+    }
+
+    .activity ul li {
+      margin: 10px 0;
+      padding: 10px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .activity ul li:last-child {
+      border-bottom: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .charts {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .sidebar {
+        width: 70px;
+      }
+
+      .sidebar h2 {
+        display: none;
+      }
+
+      .back-btn {
+        display: none;
+      }
+
+      .sidebar ul li a {
+        text-align: center;
+      }
+
+      .main {
+        margin-left: 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>🌿 Krushi Kendra</h2>
+
+    <!-- Back to Home Button -->
+    <button class="back-btn" onclick="window.location.href='index.html'">⬅ Back to Home</button>
+
+    <ul>
+      <li><a href="#">📊 Dashboard</a></li>
+      <li><a href="Products.html">📦 Products</a></li>
+      <li><a href="#">🧾 Billing</a></li>
+      <li><a href="#">👤 Owner</a></li>
+      <li><a href="#">⚙️ Settings</a></li>
+    </ul>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="search-bar">
+        <input type="text" placeholder="Search here...">
+      </div>
+      <div class="profile">
+        <span>🔔</span>
+        <img src="https://i.pravatar.cc/40" alt="profile">
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <!-- Stats Cards -->
+      <div class="cards">
+        <div class="card">
+          <h3>Total Products</h3>
+          <p>128</p>
+        </div>
+        <div class="card">
+          <h3>Today's Sales</h3>
+          <p>₹12,540</p>
+        </div>
+        <div class="card">
+          <h3>Pending Orders</h3>
+          <p>14</p>
+        </div>
+        <div class="card">
+          <h3>Low Stock</h3>
+          <p>6</p>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts">
+        <div class="chart-box">
+          <h3>Sales Overview</h3>
+          <canvas id="salesChart"></canvas>
+        </div>
+        <div class="chart-box">
+          <h3>Product Categories</h3>
+          <canvas id="categoryChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="activity">
+        <h3>Recent Activity</h3>
+        <ul>
+          <li>Hosla - 5 units sold - ₹2500</li>
+          <li>Aalsate - 2 units added to stock</li>
+          <li>Crystal Crop - 1 unit sold - ₹480</li>
+          <li>Generated Sales Report</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart.js Script -->
+  <script>
+    // Sales Chart
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+        datasets: [{
+          label: 'Sales (₹)',
+          data: [2000, 3000, 2500, 4000, 3500, 5000, 4500],
+          borderColor: '#16a34a',
+          backgroundColor: 'rgba(22,163,74,0.2)',
+          tension: 0.4,
+          fill: true
+        }]
+      }
+    });
+
+    // Category Chart
+    const ctx2 = document.getElementById('categoryChart').getContext('2d');
+    new Chart(ctx2, {
+      type: 'doughnut',
+      data: {
+        labels: ['Seeds','Fertilizers','Pesticides','Tools'],
+        datasets: [{
+          data: [30, 40, 20, 10],
+          backgroundColor: ['#22c55e','#3b82f6','#9333ea','#f59e0b']
+        }]
+      }
+    });
+  </script>
+</body>
+</html>
