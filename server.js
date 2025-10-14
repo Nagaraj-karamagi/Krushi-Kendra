@@ -8,15 +8,25 @@ const { Pool } = require("pg");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ Middleware
-app.use(cors());
+// ✅ Middleware (CORS FIX)
+app.use(
+  cors({
+    origin: [
+      "https://nagaraj-karamagi.github.io", // ✅ your GitHub Pages frontend
+      "http://localhost:5500",              // ✅ local testing
+      "http://127.0.0.1:5500"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 app.use(express.json());
 
-// ✅ PostgreSQL Connection
+// ✅ PostgreSQL Connection (✅ Updated)
 const pool = new Pool({
   connectionString:
     process.env.DATABASE_URL ||
-    "postgresql://<your-username>:<your-password>@<your-host>:5432/<your-db-name>",
+    "postgresql://krushi_user:4fR2FWljusv6c3QDYRiPQWr0WPh58tEt@dpg-d3m7ls2dbo4c73bkkhng-a.singapore-postgres.render.com/krushi_db",
   ssl: {
     rejectUnauthorized: false,
   },
@@ -101,10 +111,18 @@ app.put("/update-bill/:id", async (req, res) => {
   try {
     const result = await pool.query(
       `UPDATE bills 
-       SET customer_name=$1, particular=$2, quantity=$3, rate_incl_tax=$4,
-           total_amount=$5, grand_total=$6, payment_mode=$7,
-           amount_paid=$8, balance_amount=$9
-       WHERE bill_id=$10 RETURNING *`,
+       SET 
+         customer_name = COALESCE($1, customer_name),
+         particular = COALESCE($2, particular),
+         quantity = COALESCE($3, quantity),
+         rate_incl_tax = COALESCE($4, rate_incl_tax),
+         total_amount = COALESCE($5, total_amount),
+         grand_total = COALESCE($6, grand_total),
+         payment_mode = COALESCE($7, payment_mode),
+         amount_paid = COALESCE($8, amount_paid),
+         balance_amount = COALESCE($9, balance_amount)
+       WHERE bill_id = $10
+       RETURNING *`,
       [
         customer_name,
         particular,
