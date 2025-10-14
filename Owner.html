@@ -247,8 +247,7 @@
             💰 <b>Paid:</b> ₹${bill.amount_paid || 0}<br>
             🧾 <b>Balance:</b> ₹${bill.balance_amount || 0}
           </td>
-        </tr>`
-            : ""
+        </tr>` : ""
         }
       `;
     });
@@ -264,30 +263,83 @@
   }
 
   // 🗑 Delete bill
-async function deleteBill(bill_id) {
-  if (!confirm("🗑 Delete this bill permanently?")) return;
+  async function deleteBill(bill_id) {
+    if (!confirm("🗑 Delete this bill permanently?")) return;
 
-  try {
-    const res = await fetch(`https://krushi-kendra-backend.onrender.com/delete-bill/${bill_id}`, {
-      method: "DELETE",
-    });
+    try {
+      const res = await fetch(`https://krushi-kendra-backend.onrender.com/delete-bill/${bill_id}`, {
+        method: "DELETE",
+      });
 
-    if (res.ok) {
-      alert("✅ Bill deleted successfully!");
-      loadBills(); // refresh the table
-    } else {
-      alert("❌ Failed to delete bill.");
+      if (res.ok) {
+        alert("✅ Bill deleted successfully!");
+        loadBills(); // refresh the table
+      } else {
+        alert("❌ Failed to delete bill.");
+      }
+    } catch (err) {
+      console.error("❌ Error deleting bill:", err);
+      alert("Error deleting bill from server.");
     }
-  } catch (err) {
-    console.error("❌ Error deleting bill:", err);
-    alert("Error deleting bill from server.");
   }
-}
 
+  // ✏️ Edit Bill - Update Payment Info
+  async function editBill(bill_id) {
+    try {
+      const bill = allBills.find(b => b.bill_id === bill_id);
+      if (!bill) return alert("Bill not found!");
 
-  // ✏️ Edit bill (navigate to billing page with query)
-  function editBill(bill_id) {
-    window.location.href = `Billing.html?edit=${bill_id}`;
+      const grandTotal = parseFloat(bill.grand_total) || 0;
+      const currentPaid = parseFloat(bill.amount_paid) || 0;
+
+      const paidInput = prompt(
+        `Enter the NEW total amount paid for Bill ID ${bill_id}:\n(Grand Total: ₹${grandTotal})`,
+        currentPaid
+      );
+
+      if (paidInput === null) return;
+      const newPaid = parseFloat(paidInput) || 0;
+      const balance = grandTotal - newPaid;
+
+      let newMode = bill.payment_mode?.toLowerCase() || "unpaid";
+
+      // 🧮 Logic for updating payment mode
+      if (newPaid <= 0) {
+        newMode = "unpaid";
+      } else if (newPaid < grandTotal) {
+        newMode = "partial";
+      } else if (newPaid >= grandTotal) {
+        if (newMode === "unpaid" || newMode === "partial") {
+          newMode = "paid fully";
+        } else {
+          newMode = "paid";
+        }
+      }
+
+      if (!confirm(
+        `Update Bill ID ${bill_id}?\n\nNew Payment Mode: ${newMode.toUpperCase()}\nAmount Paid: ₹${newPaid}\nBalance: ₹${balance}`
+      )) return;
+
+      const res = await fetch(`https://krushi-kendra-backend.onrender.com/update-bill/${bill_id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          payment_mode: newMode,
+          amount_paid: newPaid,
+          balance_amount: balance
+        })
+      });
+
+      if (res.ok) {
+        alert("✅ Bill updated successfully!");
+        loadBills();
+      } else {
+        alert("❌ Failed to update bill.");
+      }
+    } catch (err) {
+      console.error("❌ Error editing bill:", err);
+      alert("Error updating bill on server.");
+    }
   }
 
   // 📤 Export bills as CSV
