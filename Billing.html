@@ -240,6 +240,7 @@
   </header>
 
   <button class="home-btn" onclick="goHome()">🏠 Home</button>
+  <button class="home-btn" onclick="goProducts()">🛒 Products</button>
 
   <div class="bill-container">
     <h2 style="text-align:center;color:#1e40af;">TAX INVOICE</h2>
@@ -354,6 +355,9 @@
   function goHome() {
     window.location.href = "index.html";
   }
+    function goProducts() {
+        window.location.href = "Products.html";
+      }
 
   const nowFull = new Date();
   document.getElementById("billDateTime").textContent =
@@ -491,3 +495,4 @@
 </body>
 
 </html>
+
