@@ -6,27 +6,79 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shree Dongardevi Krushi Kendra</title>
   <link rel="stylesheet" href="Home style.css">
+  <style>
+    /* Ensure images and sections scale nicely on all devices */
+    @media (max-width: 1024px) {
+      .hero {
+        height: 400px;
+      }
+      .hero-text h2 {
+        font-size: 1.6rem;
+      }
+      .hero-text p {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        height: 350px;
+      }
+      .hero-text {
+        left: 5%;
+        width: 90%;
+      }
+      .hero-text h2 {
+        font-size: 1.4rem;
+      }
+      .hero-text p {
+        font-size: 0.95rem;
+      }
+      .hero-text button {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 marquee {
+        font-size: 0.9rem;
+      }
+      .hero {
+        height: 300px;
+      }
+      .items {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+      .card img {
+        max-height: 180px;
+      }
+      .footer-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .footer-col {
+        margin-bottom: 20px;
+      }
+    }
+
+    /* ✅ Make product cards clickable */
+    .card {
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
-  <!-- Header
-  <header>
-    <h1 class="marquee">
-      <span>🌾 Shree Dongardevi Krushi Kendra · Shree Siddeshwar Prasanna 🌱</span>
-    </h1>
-  </header> -->
 
   <h1>
     <marquee>| Shree Dongardevi Krushi Kendra | Shree Siddeshwar Prasanna | </marquee>
   </h1>
 
-
   <nav class="navbar">
     <div class="logo">🌿 Krushi Kendra</div>
-
-    <!-- Hamburger menu icon -->
     <div class="menu-toggle" id="menu-toggle">☰</div>
-
     <ul class="nav-links" id="nav-links">
       <li><a href="Dashboard.html">Dashboard</a></li>
       <li><a href="Products.html">Products</a></li>
@@ -50,50 +102,49 @@
     <p>Our Most Selling Products</p>
     <div class="items">
 
-      <!-- First row -->
-      <div class="card">
+      <!-- Each card clickable -->
+      <div class="card" onclick="goToProducts()">
         <img src="https://agastyachemicals.in/wp-content/uploads/2023/08/23-AALSATE-1.png" alt="Product 1">
         <h2>Aalsate</h2>
       </div>
 
-      <div class="card">
+      <div class="card" onclick="goToProducts()">
         <img src="https://www.crystalcropprotection.com/images/cropProtection/160034741420200917.jpg" alt="Product 2">
         <h2>Crystal Crop</h2>
       </div>
-      <div class="card">
+
+      <div class="card" onclick="goToProducts()">
         <img src="https://dammanagro.com/admin/uploads/products/hosla.jpg" alt="Product 3">
         <h2>Hosla</h2>
       </div>
 
-      <!-- Second row -->
-      <div class="card">
-        <img src="https://www.adama.com/india/sites/adama_india/files/styles/product_header_image_desktop_2x/public/2024-04/Weedblock_650x550.webp?itok=o1aBVMpj" alt="Product 1">
-        <h2>Aalsate</h2>
+      <div class="card" onclick="goToProducts()">
+        <img src="https://www.adama.com/india/sites/adama_india/files/styles/product_header_image_desktop_2x/public/2024-04/Weedblock_650x550.webp?itok=o1aBVMpj" alt="Product 4">
+        <h2>Weedblock</h2>
       </div>
 
-      <div class="card">
-        <img src="https://www.crystalcropprotection.com/images/cropProtection/160034741420200917.jpg" alt="Product 2">
+      <div class="card" onclick="goToProducts()">
+        <img src="https://www.crystalcropprotection.com/images/cropProtection/160034741420200917.jpg" alt="Product 5">
         <h2>Crystal Crop</h2>
       </div>
 
-      <div class="card">
-        <img src="https://dammanagro.com/admin/uploads/products/hosla.jpg" alt="Product 3">
+      <div class="card" onclick="goToProducts()">
+        <img src="https://dammanagro.com/admin/uploads/products/hosla.jpg" alt="Product 6">
         <h2>Hosla</h2>
       </div>
 
-      <!-- third row -->
-      <div class="card">
-        <img src="https://agastyachemicals.in/wp-content/uploads/2023/08/23-AALSATE-1.png" alt="Product 1">
+      <div class="card" onclick="goToProducts()">
+        <img src="https://agastyachemicals.in/wp-content/uploads/2023/08/23-AALSATE-1.png" alt="Product 7">
         <h2>Aalsate</h2>
       </div>
 
-      <div class="card">
-        <img src="https://www.crystalcropprotection.com/images/cropProtection/160034741420200917.jpg" alt="Product 2">
+      <div class="card" onclick="goToProducts()">
+        <img src="https://www.crystalcropprotection.com/images/cropProtection/160034741420200917.jpg" alt="Product 8">
         <h2>Crystal Crop</h2>
       </div>
 
-      <div class="card">
-        <img src="https://dammanagro.com/admin/uploads/products/hosla.jpg" alt="Product 3">
+      <div class="card" onclick="goToProducts()">
+        <img src="https://dammanagro.com/admin/uploads/products/hosla.jpg" alt="Product 9">
         <h2>Hosla</h2>
       </div>
     </div>
@@ -102,29 +153,22 @@
     <footer class="footer">
       <div class="footer-overlay">
         <div class="footer-container">
-
-          <!-- About -->
           <div class="footer-col">
             <h3>Retail Partnership</h3>
             <p><a href="#">DAMAN</a></p>
-            <P><a href="#">ADAMA</a></P>
-            <P><a href="#">CRYSTAL</a></P>
-            <P><a href="#">AGASTHYA</a></P>
-            <P><a href="#">DHANUAKA</a></P>
-
-            
-            
+            <p><a href="#">ADAMA</a></p>
+            <p><a href="#">CRYSTAL</a></p>
+            <p><a href="#">AGASTHYA</a></p>
+            <p><a href="#">DHANUAKA</a></p>
           </div>
 
-          <!-- Contact -->
           <div class="footer-col">
             <h3>📞 Contact Us</h3>
             <p>Phone: +91 98765 43210</p>
             <p>Email: info@krushikendra.com</p>
-            <p> Addres: Government hospital Raod, Dongargaon</p>
+            <p>Address: Government Hospital Road, Dongargaon</p>
           </div>
 
-          <!-- Social Media -->
           <div class="footer-col">
             <h3>🌐 Connect With Us</h3>
             <div class="social-icons">
@@ -134,7 +178,6 @@
               <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
             </div>
           </div>
-
         </div>
 
         <div class="footer-bottom">
@@ -142,22 +185,23 @@
         </div>
       </div>
     </footer>
+  </div>
 
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    let isMenuOpen = false;
 
+    menuToggle.addEventListener('click', () => {
+      isMenuOpen = !isMenuOpen;
+      navLinks.classList.toggle('show');
+      menuToggle.textContent = isMenuOpen ? '✖' : '☰';
+    });
 
-    <!-- ✅ Move JS here -->
-    <script>
-      const menuToggle = document.getElementById('menu-toggle');
-      const navLinks = document.getElementById('nav-links');
-
-      let isMenuOpen = false;
-
-      menuToggle.addEventListener('click', () => {
-        isMenuOpen = !isMenuOpen;
-        navLinks.classList.toggle('show');
-        menuToggle.textContent = isMenuOpen ? '✖' : '☰';
-      });
-    </script>
+    // ✅ Redirect to products page when a card is clicked
+    function goToProducts() {
+      window.location.href = "Products.html";
+    }
+  </script>
 </body>
-
 </html>
