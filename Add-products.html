@@ -2,340 +2,370 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🌿 Our Products - Krushi Kendra</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pesticide Shop Admin</title>
   <style>
-    * {
-      box-sizing: border-box;
-      transition: 0.3s ease;
-    }
-
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #e0f2fe, #fef9c3);
-      color: #1e293b;
-      min-height: 100vh;
+      background: linear-gradient(135deg, #e0f2fe, #f3e8ff);
       display: flex;
       flex-direction: column;
       align-items: center;
+      min-height: 100vh;
+      color: #1e293b;
     }
 
-    /* HEADER */
-    header {
-      position: sticky;
-      top: 0;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      width: 100%;
-      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
-      padding: 16px 30px;
+    .top-buttons {
+      position: absolute;
+      top: 25px;
+      left: 25px;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-      flex-wrap: wrap;
-      gap: 10px;
+      gap: 15px;
     }
 
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .back-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
+    .nav-btn {
+      background: linear-gradient(135deg, #3b82f6, #9333ea);
+      color: white;
       border: none;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: 600;
       cursor: pointer;
-      font-size: 22px;
-      color: #fff;
-      background: linear-gradient(135deg, #3b82f6, #22c55e);
-      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      transition: all 0.3s ease;
     }
 
-    .back-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.6);
-      background: linear-gradient(135deg, #22c55e, #3b82f6);
+    .nav-btn:hover {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      transform: translateY(-3px);
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 26px;
-      font-weight: 700;
-      background: linear-gradient(90deg, #3b82f6, #22c55e);
+    h1 {
+      text-align: center;
+      margin-top: 80px;
+      font-size: 32px;
+      background: linear-gradient(90deg, #3b82f6, #9333ea);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
-    /* SEARCH BAR */
-    .search-bar {
-      flex: 1;
+    .dashboard {
       display: flex;
-      justify-content: center;
-    }
-
-    .search-bar input {
-      width: 60%;
-      max-width: 320px;
-      padding: 8px 14px;
-      border-radius: 12px;
-      border: 1px solid #cbd5e1;
-      font-size: 15px;
-      outline: none;
-      background: #f8fafc;
-      transition: all 0.3s ease;
-    }
-
-    .search-bar input:focus {
-      border-color: #22c55e;
-      box-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
-    }
-
-    /* NAV LINKS */
-    .nav-links {
-      display: flex;
-      gap: 12px;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: #2563eb;
-      font-weight: 600;
-      font-size: 15px;
-      background: #f0f9ff;
-      padding: 8px 16px;
-      border-radius: 10px;
-      border: 1px solid #bae6fd;
-    }
-
-    .nav-links a:hover {
-      background: linear-gradient(90deg, #3b82f6, #22c55e);
-      color: #fff;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
-    }
-
-    /* PRODUCT GRID */
-    .items {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 25px;
-      padding: 40px 20px;
-      max-width: 1200px;
-      width: 100%;
-    }
-
-    .card {
-      background: #ffffff;
-      border-radius: 18px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-      padding: 18px;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    }
-
-    .card img {
-      width: 100%;
-      height: 190px;
-      object-fit: contain;
-      border-radius: 12px;
-      background: #f8fafc;
-      padding: 12px;
-    }
-
-    .card h2 {
-      font-size: 18px;
-      color: #111827;
-      margin: 10px 0 5px;
-      font-weight: 600;
-    }
-
-    .price {
-      color: #22c55e;
-      font-weight: 700;
-      font-size: 17px;
-      margin: 4px 0;
-    }
-
-    .info {
-      font-size: 14px;
-      color: #475569;
-      margin: 3px 0;
-    }
-
-    .qty-section {
-      margin-top: 10px;
-      display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      gap: 6px;
+      width: 90%;
+      max-width: 900px;
+      margin-bottom: 50px;
     }
 
-    input[type="number"] {
-      width: 70px;
-      padding: 6px;
+    .add-section,
+    .table-section {
+      width: 100%;
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0 14px;
       border: 1px solid #cbd5e1;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 14px;
-      text-align: center;
     }
 
     button {
-      margin-top: 12px;
-      padding: 10px 18px;
+      width: 100%;
+      padding: 12px;
       border: none;
-      background: linear-gradient(90deg, #3b82f6, #22c55e);
-      color: #fff;
-      border-radius: 8px;
+      border-radius: 10px;
+      font-size: 16px;
       font-weight: 600;
+      color: #fff;
+      background: linear-gradient(90deg, #3b82f6, #9333ea);
       cursor: pointer;
-      font-size: 15px;
+      transition: 0.3s;
     }
 
     button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+      background: linear-gradient(90deg, #22c55e, #16a34a);
     }
 
-    .empty-msg {
-      text-align: center;
-      font-size: 18px;
-      color: #64748b;
-      margin-top: 40px;
+    .search-bar {
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #fff;
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+    .search-bar input {
       width: 100%;
-      color: #475569;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      font-size: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    td img {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .action-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      margin: 2px;
+    }
+
+    .edit-btn {
+      background-color: #3b82f6;
+    }
+
+    .delete-btn {
+      background-color: #ef4444;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 15px;
+      width: 400px;
+      max-width: 90%;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-close {
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 8px;
+      float: right;
+      cursor: pointer;
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <div class="header-left">
-      <button class="back-btn" onclick="window.location.href='index.html'">🏠</button>
-      <h1>🌿 Our Products</h1>
+  <div class="top-buttons">
+    <button class="nav-btn" onclick="location.href='index.html'">🏠 Home</button>
+    <button class="nav-btn" onclick="location.href='Products.html'">Products</button>
+  </div>
+
+  <h1>🌿 Add / Manage Pesticides 🌿</h1>
+
+  <div class="dashboard">
+
+    <!-- Add Product Section -->
+    <div class="add-section">
+      <h2>➕ Add New Product</h2>
+      <input type="text" id="productName" placeholder="Product Name">
+      <input type="text" id="hsnCode" placeholder="HSN / SAC Code">
+      <input type="number" id="rateInclTax" placeholder="Rate (Incl. Tax)">
+      <input type="number" id="ratePerPiece" placeholder="Rate per Piece">
+      <input type="text" id="packOf" placeholder="Pack of (e.g. 1, 2, 5)">
+      <p><b>Product Image:</b></p>
+      <input type="text" id="productImageUrl" placeholder="Image URL (optional)">
+      <input type="file" id="productImageFile" accept="image/*">
+      <button onclick="addProduct()">Add Product</button>
     </div>
 
-    <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="🔍 Search products..." onkeyup="searchProducts()">
+    <!-- Product Table -->
+    <div class="table-section">
+      <h2>📦 Added Products</h2>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search by product name..." onkeyup="searchProduct()">
+      </div>
+
+      <table id="productTable">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>HSN</th>
+            <th>Rate (Incl. Tax)</th>
+            <th>Rate per Pc</th>
+            <th>Pack</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
 
-    <div class="nav-links">
-      <a href="Add-products.html">➕ Add Products</a>
-      <a href="Billing.html">💳 Billing</a>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal" id="editModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">✖</button>
+      <h3>Edit Product</h3>
+      <input type="text" id="editName" placeholder="Product Name">
+      <input type="text" id="editHsn" placeholder="HSN / SAC Code">
+      <input type="number" id="editRateIncl" placeholder="Rate (Incl. Tax)">
+      <input type="number" id="editRatePc" placeholder="Rate per Piece">
+      <input type="text" id="editPack" placeholder="Pack Of">
+      <input type="text" id="editImage" placeholder="Image URL">
+      <button onclick="saveEdit()">Save Changes</button>
     </div>
-  </header>
-
-  <div class="items" id="product-list"></div>
-  <p class="empty-msg" id="emptyMsg" style="display:none;">🛒 No products added yet. Go to <a href="add-products.html">Add Products</a>.</p>
-
-  <footer>
-    <p>🌱 Powered by <b>Krushi Kendra</b></p>
-  </footer>
+  </div>
 
   <script>
-    function loadProducts() {
-      let products = JSON.parse(localStorage.getItem("products")) || [];
-      const container = document.getElementById("product-list");
-      const emptyMsg = document.getElementById("emptyMsg");
-      container.innerHTML = "";
+    let editIndex = -1;
+    document.addEventListener("DOMContentLoaded", displayProducts);
 
-      if (products.length === 0) {
-        emptyMsg.style.display = "block";
+    function addProduct() {
+      const name = productName.value.trim();
+      const hsn = hsnCode.value.trim();
+      const rateIncl = rateInclTax.value.trim();
+      const ratePc = ratePerPiece.value.trim();
+      const pack = packOf.value.trim();
+      const imageUrl = productImageUrl.value.trim();
+      const imageFile = productImageFile.files[0];
+
+      if (!name || !ratePc) {
+        alert("⚠️ Please fill all required fields!");
         return;
       }
 
-      emptyMsg.style.display = "none";
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = e => saveProduct(name, hsn, rateIncl, ratePc, pack, e.target.result);
+        reader.readAsDataURL(imageFile);
+      } else {
+        saveProduct(name, hsn, rateIncl, ratePc, pack, imageUrl || "");
+      }
+    }
+
+    function saveProduct(name, hsn, rateIncl, ratePc, pack, image) {
+      const products = JSON.parse(localStorage.getItem("products")) || [];
+      products.push({ name, hsn, rateIncl, ratePc, pack, image });
+      localStorage.setItem("products", JSON.stringify(products));
+      clearForm();
+      displayProducts();
+      alert("✅ Product added!");
+    }
+
+    function displayProducts() {
+      const products = JSON.parse(localStorage.getItem("products")) || [];
+      const tbody = document.querySelector("#productTable tbody");
+      tbody.innerHTML = "";
 
       products.forEach((p, index) => {
-        const price = p.rateIncl || p.ratePc || p.price || "0";
-        container.innerHTML += `
-          <div class="card">
-            <img src="${p.image || 'https://via.placeholder.com/150'}" alt="${p.name}">
-            <h2>${p.name}</h2>
-            <p class="price">₹${price}</p>
-            <p class="info"><b>Pack:</b> ${p.pack || '-'}</p>
-            <div class="qty-section">
-              <label>Qty:</label>
-              <input type="number" id="qty-${index}" min="1" value="1">
-            </div>
-            <button onclick="addToCart(${index})">🛒 Add to Cart</button>
-          </div>
-        `;
+        tbody.innerHTML += `
+          <tr>
+            <td><img src="${p.image}" alt="Product"></td>
+            <td>${p.name}</td>
+            <td>${p.hsn || "-"}</td>
+            <td>${p.rateIncl || "-"}</td>
+            <td>${p.ratePc || "-"}</td>
+            <td>${p.pack || "-"}</td>
+            <td>
+              <button class="action-btn edit-btn" onclick="openEdit(${index})">Edit</button>
+              <button class="action-btn delete-btn" onclick="deleteProduct(${index})">Delete</button>
+            </td>
+          </tr>`;
       });
     }
 
-    function addToCart(index) {
-      let products = JSON.parse(localStorage.getItem("products")) || [];
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      let qty = parseInt(document.getElementById(`qty-${index}`).value) || 1;
-      let product = { ...products[index], selectedQty: qty };
-      cart.push(product);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      alert(`✅ ${qty} × ${product.name} added to cart!`);
-    }
-
-    function searchProducts() {
-      let query = document.getElementById("searchInput").value.toLowerCase();
-      let products = JSON.parse(localStorage.getItem("products")) || [];
-      const container = document.getElementById("product-list");
-      const emptyMsg = document.getElementById("emptyMsg");
-
-      const filtered = products.filter(p =>
-        p.name.toLowerCase().includes(query) ||
-        (p.pack && p.pack.toLowerCase().includes(query))
-      );
-
-      container.innerHTML = "";
-      if (filtered.length === 0) {
-        emptyMsg.style.display = "block";
-        emptyMsg.innerHTML = `🔎 No products found for "<b>${query}</b>".`;
-        return;
+    function deleteProduct(index) {
+      const products = JSON.parse(localStorage.getItem("products")) || [];
+      if (confirm("🗑️ Delete this product?")) {
+        products.splice(index, 1);
+        localStorage.setItem("products", JSON.stringify(products));
+        displayProducts();
       }
-
-      emptyMsg.style.display = "none";
-
-      filtered.forEach((p, index) => {
-        const price = p.rateIncl || p.ratePc || p.price || "0";
-        container.innerHTML += `
-          <div class="card">
-            <img src="${p.image || 'https://via.placeholder.com/150'}" alt="${p.name}">
-            <h2>${p.name}</h2>
-            <p class="price">₹${price}</p>
-            <p class="info"><b>Pack:</b> ${p.pack || '-'}</p>
-            <div class="qty-section">
-              <label>Qty:</label>
-              <input type="number" id="qty-${index}" min="1" value="1">
-            </div>
-            <button onclick="addToCart(${index})">🛒 Add to Cart</button>
-          </div>
-        `;
-      });
     }
 
-    loadProducts();
+    function openEdit(index) {
+      const products = JSON.parse(localStorage.getItem("products")) || [];
+      const p = products[index];
+      editIndex = index;
+
+      editName.value = p.name;
+      editHsn.value = p.hsn;
+      editRateIncl.value = p.rateIncl;
+      editRatePc.value = p.ratePc;
+      editPack.value = p.pack;
+      editImage.value = p.image;
+
+      document.getElementById("editModal").style.display = "flex";
+    }
+
+    function saveEdit() {
+      const products = JSON.parse(localStorage.getItem("products")) || [];
+      products[editIndex] = {
+        name: editName.value.trim(),
+        hsn: editHsn.value.trim(),
+        rateIncl: editRateIncl.value.trim(),
+        ratePc: editRatePc.value.trim(),
+        pack: editPack.value.trim(),
+        image: editImage.value.trim()
+      };
+      localStorage.setItem("products", JSON.stringify(products));
+      displayProducts();
+      closeModal();
+      alert("✅ Product updated!");
+    }
+
+    function closeModal() {
+      document.getElementById("editModal").style.display = "none";
+    }
+
+    function clearForm() {
+      productName.value = "";
+      hsnCode.value = "";
+      rateInclTax.value = "";
+      ratePerPiece.value = "";
+      packOf.value = "";
+      productImageUrl.value = "";
+      productImageFile.value = "";
+    }
+
+    function searchProduct() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const rows = document.querySelectorAll("#productTable tbody tr");
+
+      rows.forEach(row => {
+        const name = row.cells[1].textContent.toLowerCase();
+        row.style.display = name.includes(input) ? "" : "none";
+      });
+    }
   </script>
 </body>
 
