@@ -351,150 +351,57 @@
   <footer>Goods once sold will not be taken back. | © 2025 Sri Dongardevi Krishi Kendra</footer>
 
   <script>
-  // 🏠 Home Navigation
-  function goHome() {
-    window.location.href = "index.html";
-  }
-    function goProducts() {
-        window.location.href = "Products.html";
-      }
-
-  const nowFull = new Date();
-  document.getElementById("billDateTime").textContent =
-    nowFull.toLocaleDateString() + " " + nowFull.toLocaleTimeString();
-
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const billBody = document.getElementById("billBody");
-  let subtotal = 0;
-  billBody.innerHTML = "";
-
-  cart.forEach(p => {
-    const qty = parseInt(p.selectedQty) || 1;
-    const rateIncl = parseFloat(p.rateIncl) || 0;
-    const ratePc = parseFloat(p.ratePc) || parseFloat(p.price) || 0;
-    const amt = qty * ratePc;
-    subtotal += amt;
-
-    billBody.innerHTML += `
-      <tr>
-        <td>${p.name}</td>
-        <td>${p.hsn || "-"}</td>
-        <td>${qty}</td>
-        <td>${rateIncl.toFixed(2)}</td>
-        <td>${ratePc.toFixed(2)}</td>
-        <td>${amt.toFixed(2)}</td>
-      </tr>`;
-  });
-
-  const cgst = subtotal * 0.09;
-  const sgst = subtotal * 0.09;
-  const grandTotal = subtotal + cgst + sgst;
-  document.getElementById("cgst").textContent = cgst.toFixed(2);
-  document.getElementById("sgst").textContent = sgst.toFixed(2);
-  document.getElementById("grandTotal").textContent = grandTotal.toFixed(2);
-  document.getElementById("taxableValue").textContent = subtotal.toFixed(2);
-  document.getElementById("cgstTax").textContent = cgst.toFixed(2);
-  document.getElementById("sgstTax").textContent = sgst.toFixed(2);
-  document.getElementById("totalTax").textContent = (cgst + sgst).toFixed(2);
-
-  function numberToWords(num) {
-    const a = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
-      "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
-    const b = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
-    if ((num = num.toString()).length > 9) return "Overflow";
-    const n = ("000000000" + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-    if (!n) return;
-    let str = "";
-    str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + " " + a[n[1][1]]) + " Crore " : "";
-    str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + " " + a[n[2][1]]) + " Lakh " : "";
-    str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + " " + a[n[3][1]]) + " Thousand " : "";
-    str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + " " + a[n[4][1]]) + " Hundred " : "";
-    str += (n[5] != 0) ? ((str != "") ? "and " : "") + (a[Number(n[5])] || b[n[5][0]] + " " + a[n[5][1]]) + " " : "";
-    return str + "Only";
-  }
-
-  document.getElementById("amountWords").textContent =
-    "INR " + numberToWords(Math.round(grandTotal));
-  document.getElementById("taxAmountWords").textContent =
-    "INR " + numberToWords(Math.round(cgst + sgst));
-
-  function updatePaymentFields() {
-    const mode = document.getElementById("paymentMode").value;
-    let modeText = "-";
-    if (mode === "cash") modeText = "Cash";
-    if (mode === "upi") modeText = "UPI";
-    if (mode === "unpaid") modeText = "Unpaid";
-    if (mode === "partial") modeText = "Partial Payment";
-
-    document.getElementById("paymentModeDisplay").textContent = modeText;
-    document.getElementById("paymentModeText").textContent = modeText;
-
-    if (mode === "partial") {
-      document.getElementById("partialPaymentFields").style.display = "block";
-      document.getElementById("paidRow").style.display = "";
-      document.getElementById("balanceRow").style.display = "";
-    } else {
-      document.getElementById("partialPaymentFields").style.display = "none";
-      document.getElementById("paidRow").style.display = "none";
-      document.getElementById("balanceRow").style.display = "none";
-    }
-  }
-
-  function updateBalance() {
-    const paid = parseFloat(document.getElementById("paidAmount").value) || 0;
-    const grand = parseFloat(document.getElementById("grandTotal").textContent) || 0;
-    const balance = grand - paid;
-    document.getElementById("paidAmountDisplay").textContent = paid.toFixed(2);
-    document.getElementById("balanceAmount").textContent = balance.toFixed(2);
-    document.getElementById("balanceAmountDisplay").textContent = balance.toFixed(2);
-  }
-
-  function clearBill() {
-    localStorage.removeItem("cart");
-    location.reload();
-  }
-
-  // ✅ Save Bill to PostgreSQL and Redirect to Owner Page
+  // ✅ Save Bill to PostgreSQL and Redirect to Owner Page (FIXED)
   async function saveBill() {
     try {
       const bill = {
         customer_name: document.getElementById("customerName").value || "Unknown",
         particular: cart.map(p => p.name).join(", "),
-        quantity: cart.reduce((sum, p) => sum + (parseInt(p.selectedQty) || 0), 0),
-        rate_incl_tax: parseFloat(subtotal).toFixed(2),
-        total_amount: parseFloat(subtotal).toFixed(2),
-        grand_total: parseFloat(grandTotal).toFixed(2),
+        quantity: Number(
+          cart.reduce((sum, p) => sum + (parseInt(p.selectedQty) || 0), 0)
+        ),
+        rate_incl_tax: Number(subtotal),      // ✅ NUMBER
+        total_amount: Number(subtotal),       // ✅ NUMBER
+        grand_total: Number(grandTotal),      // ✅ NUMBER
         payment_mode: document.getElementById("paymentMode").value,
-        amount_paid: parseFloat(document.getElementById("paidAmount").value) || 0,
-        balance_amount: parseFloat(document.getElementById("balanceAmount").textContent) || 0
+        amount_paid: Number(document.getElementById("paidAmount").value || 0),
+        balance_amount: Number(document.getElementById("balanceAmount").textContent || 0)
       };
 
       console.log("🧾 Saving Bill:", bill);
 
-      const res = await fetch("https://krushi-kendra-backend.onrender.com/add-bill", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(bill)
-      });
+      const res = await fetch(
+        "https://krushi-kendra-backend.onrender.com/add-bill",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(bill)
+        }
+      );
 
-      if (res.ok) {
-        alert("✅ Bill saved successfully to PostgreSQL!");
-        localStorage.removeItem("cart");
-        window.location.href = "Owner.html"; // ✅ Redirect to dashboard
-      } else {
-        alert("❌ Error saving bill to server.");
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.error("❌ Server error:", data);
+        alert("❌ Error saving bill: " + (data.error || "Server error"));
+        return;
       }
+
+      alert("✅ Bill saved successfully to PostgreSQL!");
+      localStorage.removeItem("cart");
+      window.location.href = "Owner.html";
+
     } catch (err) {
       console.error("❌ Error saving bill:", err);
       alert("❌ Error saving bill.");
     }
   }
-
-  updatePaymentFields();
 </script>
+
 </body>
 
 </html>
+
 
 
 
