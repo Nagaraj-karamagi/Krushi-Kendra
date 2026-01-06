@@ -195,3 +195,4 @@ app.delete("/delete-bill/:id", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
+
