@@ -474,6 +474,41 @@
       alert("❌ Error saving bill.");
     }
   }
+
+  
+  // ✅ GO HOME BUTTON
+  function goHome() {
+    window.location.href = "index.html";
+  }
+
+  // ✅ GO PRODUCTS BUTTON
+  function goProducts() {
+    window.location.href = "Products.html"; // or product.html (match your file name)
+  }
+
+  // ✅ CLEAR BILL BUTTON
+  function clearBill() {
+    if (!confirm("Clear all bill items?")) return;
+
+    localStorage.removeItem("cart");
+    document.getElementById("billBody").innerHTML = "";
+
+    document.getElementById("cgst").textContent = "0.00";
+    document.getElementById("sgst").textContent = "0.00";
+    document.getElementById("grandTotal").textContent = "0.00";
+
+    document.getElementById("taxableValue").textContent = "0.00";
+    document.getElementById("cgstTax").textContent = "0.00";
+    document.getElementById("sgstTax").textContent = "0.00";
+    document.getElementById("totalTax").textContent = "0.00";
+
+    document.getElementById("paymentModeDisplay").textContent = "-";
+    document.getElementById("customerName").value = "";
+    document.getElementById("paidAmount").value = "";
+    document.getElementById("balanceAmount").textContent = "0.00";
+
+    alert("🗑️ Bill cleared!");
+  }
 </script>
 
 </body>
