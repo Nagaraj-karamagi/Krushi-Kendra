@@ -7,7 +7,28 @@
   <title>Shree Dongardevi Krushi Kendra</title>
   <link rel="stylesheet" href="Home style.css">
   <style>
-    /* Ensure images and sections scale nicely on all devices */
+
+
+    .items {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* ✅ 3 per row desktop */
+      gap: 30px;
+    }
+
+    @media (max-width: 900px) {
+      .items {
+        grid-template-columns: repeat(2, 1fr); /* ✅ 2 per row tablet */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .items {
+        grid-template-columns: 1fr; /* ✅ 1 per row mobile */
+        gap: 25px;
+      }
+    }
+
+
     @media (max-width: 1024px) {
       .hero {
         height: 400px;
@@ -46,10 +67,6 @@
       }
       .hero {
         height: 300px;
-      }
-      .items {
-        grid-template-columns: 1fr;
-        gap: 25px;
       }
       .card img {
         max-height: 180px;
@@ -102,7 +119,6 @@
     <p>Our Most Selling Products</p>
     <div class="items">
 
-      <!-- Each card clickable -->
       <div class="card" onclick="goToProducts()">
         <img src="https://agastyachemicals.in/wp-content/uploads/2023/08/23-AALSATE-1.png" alt="Product 1">
         <h2>Aalsate</h2>
@@ -147,6 +163,7 @@
         <img src="https://dammanagro.com/admin/uploads/products/hosla.jpg" alt="Product 9">
         <h2>Hosla</h2>
       </div>
+
     </div>
 
     <!-- Footer Section -->
@@ -198,7 +215,6 @@
       menuToggle.textContent = isMenuOpen ? '✖' : '☰';
     });
 
-    // ✅ Redirect to products page when a card is clicked
     function goToProducts() {
       window.location.href = "Products.html";
     }
