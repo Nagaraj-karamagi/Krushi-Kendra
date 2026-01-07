@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shree Dongardevi Krushi Kendra</title>
+  <link rel="stylesheet" href="home-style.css">
+</head>
+
+<body>
+
+  <h1>
+    <marquee>| Shree Dongardevi Krushi Kendra | Shree Siddeshwar Prasanna | </marquee>
+  </h1>
+
+  <nav class="navbar">
+    <div class="logo">🌿 Krushi Kendra</div>
+    <div class="menu-toggle" id="menu-toggle">☰</div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="Dashboard.html">Dashboard</a></li>
+      <li><a href="Products.html">Products</a></li>
+      <li><a href="Add-products.html">Add Products</a></li>
+      <li><a href="Billing.html">Billing / Sales</a></li>
+      <li><a href="Owner.html">Owner</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <img src="https://i.pinimg.com/1200x/fe/d5/ee/fed5eef3ab1f413e14914faf7de2783c.jpg" alt="field image">
+    <div class="hero-text">
+      <h2>Welcome to Shree Dongardevi Krushi Kendra</h2>
+      <p>Providing the best agricultural products and services for farmers 🌱</p>
+      <a href="Products.html"><button>Explore Products</button></a>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <div class="container">
+    <p>Our Most Selling Products</p>
+
+    <div class="items">
+
+      <div class="card" onclick="goToProducts()">
+        <img src="https://agastyachemicals.in/wp-content/uploads/2023/08/23-AALSATE-1.png" alt="Product 1">
+        <h2>Aalsate</h2>
+      </div>
+
+      <div class="card" onclick="goToProducts()">
+        <img src="https://dammanagro.com/admin/uploads/products/daman-plus.jpg" alt="Product 2">
+        <h2>Crystal Crop</h2>
+      </div>
+
+      <div class="card" onclick="goToProducts()">
+        <img src="https://dammanagro.com/admin/uploads/products/hosla.jpg" alt="Product 3">
+        <h2>Hosla</h2>
+      </div>
+
+      <div class="card" onclick="goToProducts()">
+        <img src="https://www.adama.com/india/sites/adama_india/files/styles/product_header_image_desktop_2x/public/2024-04/Weedblock_650x550.webp?itok=o1aBVMpj" alt="Product 4">
+        <h2>Weedblock</h2>
+      </div>
+
+      <div class="card" onclick="goToProducts()">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzbcFOX42NFUszicSVUzDGa9yeXVYmI35iZw&s" alt="Product 5">
+        <h2>Crystal Crop</h2>
+      </div>
+
+      <div class="card" onclick="goToProducts()">
+        <img src="https://dammanagro.com/admin/uploads/products/hosla.jpg" alt="Product 6">
+        <h2>Hosla</h2>
+      </div>
+
+      <div class="card" onclick="goToProducts()">
+        <img src="https://agastyachemicals.in/wp-content/uploads/2023/08/23-AALSATE-1.png" alt="Product 7">
+        <h2>Aalsate</h2>
+      </div>
+
+      <div class="card" onclick="goToProducts()">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmxk9m3LKfUpYpufPR0KdnmhsRwh2uKJZGpA&s" alt="Product 8">
+        <h2>Crystal Crop</h2>
+      </div>
+
+      <div class="card" onclick="goToProducts()">
+        <img src="https://dammanagro.com/admin/uploads/products/hosla.jpg" alt="Product 9">
+        <h2>Hosla</h2>
+      </div>
+
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+      <div class="footer-overlay">
+        <div class="footer-container">
+          <div class="footer-col">
+            <h3>Retail Partnership</h3>
+            <p><a href="#">DAMAN</a></p>
+            <p><a href="#">ADAMA</a></p>
+            <p><a href="#">CRYSTAL</a></p>
+            <p><a href="#">AGASTHYA</a></p>
+            <p><a href="#">DHANUAKA</a></p>
+          </div>
+
+          <div class="footer-col">
+            <h3>📞 Contact Us</h3>
+            <p>Phone: +91 98765 43210</p>
+            <p>Email: info@krushikendra.com</p>
+            <p>Address: Government Hospital Road, Dongargaon</p>
+          </div>
+
+          <div class="footer-col">
+            <h3>🌐 Connect With Us</h3>
+            <div class="social-icons">
+              <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+              <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram"></a>
+              <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
+              <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>© 2025 Shree Dongardevi Krushi Kendra | All Rights Reserved</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    let isMenuOpen = false;
+
+    menuToggle.addEventListener('click', () => {
+      isMenuOpen = !isMenuOpen;
+      navLinks.classList.toggle('show');
+      menuToggle.textContent = isMenuOpen ? '✖' : '☰';
+    });
+
+    function goToProducts() {
+      window.location.href = "Products.html";
+    }
+  </script>
+
+</body>
+</html>
